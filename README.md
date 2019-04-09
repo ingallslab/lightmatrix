@@ -1,3 +1,10 @@
+# WIP
+
+everything here will be updated soon with more viable information
+
+\- Cody
+
+
 # PI CONTROL for co-cultures
 
 We want to create a system to control the input of light into the system. The light will cause a change in the population ratios, the output of which will be read in as a percentage of GFP producing cells to the total.
