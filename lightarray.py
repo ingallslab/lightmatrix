@@ -3,16 +3,15 @@ import csv, sys, serial, time, sched
 class LightArray:
     # class used to configure the light array built for the Brian Ingalls lab
     def __init__(self, filename="config.in"):
-        # light settings will be kept as a 3 tuple ranging from 0 to 4096
+        # light settings will be kept as a 3 tuple ranging from 0 to 4095
         self.light_settings = [(0, 0 ,0)] * 16
         self.settings_from_csv(filename)
         self.sync_arduino()
         self.s = sched.scheduler(time.time, time.sleep)
     
     def update_light_slot(self, num, new_values):
-        # requires 0 <= num < 48 and
-        # 0<= newValue[i] < 4096, 0 <= i < 3
-        # check if new light setting is valid
+        # num -> int
+        # new_values -> (x, y, z) : x, y, z == int and 0 <= x,y,z <= 4095
         if 0 <= num and num < 16:
             for i in new_values:
                 if 0<= i <4096:
@@ -24,14 +23,20 @@ class LightArray:
             raise Exception('ERROR: unacceptable light slot. Value of light slot should be between 0 and 16. received {}'.format(num))
     
     def update_and_sync(self, num, new_values):
+        # num -> int
+        # new_values -> (x, y, z) : x, y, z == int and 0 <= x,y,z <= 4095
+        # updates the pwm values of LED's for a given tube and syncs with arduino
         self.update_light_slot(num, new_values)
         self.sync_arduino()
 
     def get_tube(self, tube):
+        # tube -> x : 1 <= x < 16
+        # prints the LED values of the selected tube.
         print(self.light_settings[tube])
         return self.light_settings[tube]
 
     def settings_from_csv(self, filename):
+        # filename -> string
         # filename is the name of a file on the path
         try:
             with open(filename, 'r') as f:
@@ -46,6 +51,7 @@ class LightArray:
             raise Exception("ERROR: could not properly parse out csv. Please check for errors")
 
     def sync_arduino(self):
+        # sends current information stored in memory to the arduino via serial communication
         ard = serial.Serial()
         ard.baudrate = 9600
         ard.port = '/dev/ttyACM0'
