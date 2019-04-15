@@ -11,7 +11,7 @@ There are two ways to configure the light matrix. The first is to modify the `co
 The second way to configure the light matrix only works if the LED's used are only red green and blue and are arranged as followed
 
 ```
-	R
+    R
   G   B
 
 ```
