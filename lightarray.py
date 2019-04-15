@@ -2,7 +2,8 @@ import csv, sys, serial, time, sched
 
 class LightArray:
     # class used to configure the light array built for the Brian Ingalls lab
-    def __init__(self, filename="config.in"):
+    def __init__(self, serial_port="/dev/ttyACM0", filename="config.in"):
+        self.serial_port = serial_port
         # light settings will be kept as a 3 tuple ranging from 0 to 4095
         self.light_settings = [(0, 0 ,0)] * 16
         self.settings_from_csv(filename)
@@ -54,7 +55,7 @@ class LightArray:
         # sends current information stored in memory to the arduino via serial communication
         ard = serial.Serial()
         ard.baudrate = 9600
-        ard.port = '/dev/ttyACM0'
+        ard.port = self.serial_port
         if ard.is_open == False:
             ard.open()
         ard.readline()

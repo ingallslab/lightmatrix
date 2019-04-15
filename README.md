@@ -20,13 +20,28 @@ If this is the case then `rgbvalues.in` can be modified where `slot` is also the
 
 ## Usage
 
-For single level light control
+### Running the system 
+
+To use this system the user will need to plug their device into the arduino then in the repository director execute the command `./run.sh`
+
+### Single Level Light Control
+
+For single level light control the `main.py` script will look as followed.
 
 ```python
 import lightarray
 
 light_array = lightarray.LightArray() # initialize a LightArray object
 ```
+
+### Arduino Serial Ports
+
+The serial port may have to be adjusted based on the system that the code is run on. For linux, serial port `/dev/ttyACM0` is used and no changes are necessary. Otherwise information regarding the serial port is dependent on the users device.
+
+Users may have to be concerned with permissions for the serial port.If access to the serial port is denied, it can be accessed by running:
+
+`sudo chmod a+rw /dev/ttyACM0`
+
 
 ### Open Loop Control
 
@@ -53,6 +68,7 @@ filenames = [] # a list of filenames with the open loop control format.
 
 light_array.run_open_loop(filenames)
 ```
+
 
 
 
